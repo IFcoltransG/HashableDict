@@ -14,7 +14,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     keywords=["dictionary", "dict", "frozen", "hashable", "immutable"],
     url="https://github.com/IFcoltransG/HashableDict",
-    download_url="https://github.com/IFcoltransG/HashableDict/archive/v0.1.0.tar.gz",
+    download_url="https://github.com/IFcoltransG/HashableDict/archive/v0.1.1.tar.gz",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
