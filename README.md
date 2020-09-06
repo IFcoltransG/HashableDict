@@ -4,8 +4,8 @@ A hashable immutable dictionary for Python. It lets you store dictionaries in se
 ```python
 from HashableDict import HashableFrozenDict
 
-alive_list  = [("Ada Lovelace", False)
-               ("Douglas Adams", False)
+alive_list  = [("Ada Lovelace", False),
+               ("Douglas Adams", False),
                ("Sylvia Plath", False),
                ("Alan Turing", False),
                ("you and your dreams", True)]
