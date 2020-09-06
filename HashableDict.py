@@ -59,10 +59,11 @@ class HashableFrozenDict:
 
     def items(self):
         '''
-        Returns the (frozen-)set of (key, value) pairs
+        Iterates through (key, value) pairs
         '''
         boxed_key_val_pairs = self._get_contents()
-        return frozenset((key, box.contents) for key, box in boxed_key_val_pairs)
+        for key, box in boxed_key_val_pairs:
+            yield (key, box.contents)
 
     def keys(self):
         '''
