@@ -74,7 +74,7 @@ class HashDict:
 
     def keys(self):
         '''
-        Returns the (frozen-)set of keys in the dictionary
+        Returns the frozenset of keys in the dictionary
         '''
         return self.__keys
 
@@ -123,16 +123,16 @@ class HashDict:
                 return value
         raise KeyError(key_to_find)
 
-    @classmethod
-    def fromkeys(cls, keys_iterable, value=None):
-        '''
-        Create a new dictionary with keys from iterable and values set to value.
-        '''
-        return HashDict((key, value) for key in keys_iterable)
-
     def _get_contents(self):
         '''
         Return the internal __contents frozenset
         (such as for checking equality)
         '''
         return self.__contents
+
+    @classmethod
+    def fromkeys(cls, keys_iterable, value=None):
+        '''
+        Create a new dictionary with keys from iterable and values set to value.
+        '''
+        return HashDict((key, value) for key in keys_iterable)
