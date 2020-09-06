@@ -20,7 +20,9 @@ class HashableBox:
         '''
         Checks if other is a HashableBox
         '''
-        return isinstance(other, HashableBox)
+        if not isinstance(other, HashableBox):
+            return False
+        return self.contents == other.contents
 
 
 class HashDict:
