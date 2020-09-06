@@ -35,6 +35,7 @@ class HashDict:
             = dictionary with keys made from pairs in iterable
         HashDict(**kwargs) = dictionary made from kwargs
         '''
+        assert not (base_iterable is not None and kwargs)
         if base_iterable is None:
             base_iterable = kwargs
         if isinstance(base_iterable, dict):
