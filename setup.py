@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="HashableDict",
-    version="0.1.1",
+    version="0.1.2",
     author="IFcoltransG",
     license="unlicense",
     author_email="IFcoltransG+PyPI@protonmail.ch",

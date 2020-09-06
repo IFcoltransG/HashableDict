@@ -137,5 +137,5 @@ class HashBox:
         And contains equal contents
         '''
         if not isinstance(other, HashBox):
-            return False
+            return NotImplemented
         return self.contents == other.contents
