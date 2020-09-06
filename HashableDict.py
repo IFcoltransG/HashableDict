@@ -1,14 +1,14 @@
-class HashableBox:
+class HashBox:
     '''
-    A hashable container for storing unhashable things,
-    Which compares equal to
+    A hashable container for storing something unhashable,
+    Comparing equal to boxes with equal contents
     '''
 
     def __init__(self, contents=None):
         self.contents = contents
 
     def __repr__(self):
-        return f"HashableBox({repr(self.contents)})"
+        return f"HashBox({repr(self.contents)})"
 
     def __hash__(self):
         '''
@@ -18,9 +18,10 @@ class HashableBox:
 
     def __eq__(self, other):
         '''
-        Checks if other is a HashableBox
+        Checks if other is a HashBox,
+        And contains equal contents
         '''
-        if not isinstance(other, HashableBox):
+        if not isinstance(other, HashBox):
             return False
         return self.contents == other.contents
 
@@ -46,7 +47,7 @@ class HashDict:
         keys = set()
         for key, value in base_iterable:
             # wrap values in hashable boxes in case of mutability
-            contents.add((key, HashableBox(value)))
+            contents.add((key, HashBox(value)))
             keys.add(key)
         self.__contents = frozenset(contents)
         self.__keys = frozenset(keys)
