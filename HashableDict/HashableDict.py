@@ -97,8 +97,8 @@ class HashDict(Mapping, Hashable):
 
 class PairBox:
     '''
-    A hashable container for storing something unhashable,
-    Comparing equal to boxes with equal contents
+    A hashable container for storing a key and an unhashable value,
+    Comparing equal to boxes with equal keys
     '''
 
     def __init__(self, key, value=None):
