@@ -23,7 +23,7 @@ class HashDict(Mapping, Hashable):
         keys = set()
         for key, value in base_iterable:
             # wrap values in hashable boxes in case of mutability
-            contents.add((key, HashBox(value)))
+            contents.add((key, PairBox(value)))
             keys.add(key)
         #use a frozenset internally because it is immutable
         self.__contents = frozenset(contents)
@@ -95,7 +95,7 @@ class HashDict(Mapping, Hashable):
         return HashDict((key, value) for key in keys_iterable)
 
 
-class HashBox:
+class PairBox:
     '''
     A hashable container for storing something unhashable,
     Comparing equal to boxes with equal contents
@@ -112,14 +112,14 @@ class HashBox:
         return self.__key
 
     def __repr__(self):
-        return f"HashBox({repr(self.key)}: {repr(self.value)})"
+        return f"PairBox({repr(self.key)}: {repr(self.value)})"
 
     def __eq__(self, other):
         '''
-        Checks if other is a HashBox,
+        Checks if other is a PairBox,
         And contains an equal key
         '''
-        if not isinstance(other, HashBox):
+        if not isinstance(other, PairBox):
             return NotImplemented
         return self.key == other.key
 
