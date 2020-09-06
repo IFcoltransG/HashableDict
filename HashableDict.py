@@ -1,31 +1,3 @@
-class HashBox:
-    '''
-    A hashable container for storing something unhashable,
-    Comparing equal to boxes with equal contents
-    '''
-
-    def __init__(self, contents=None):
-        self.contents = contents
-
-    def __repr__(self):
-        return f"HashBox({repr(self.contents)})"
-
-    def __hash__(self):
-        '''
-        All boxes will have a hash collision.
-        '''
-        return hash(0)
-
-    def __eq__(self, other):
-        '''
-        Checks if other is a HashBox,
-        And contains equal contents
-        '''
-        if not isinstance(other, HashBox):
-            return False
-        return self.contents == other.contents
-
-
 class HashDict:
     '''
     An immutable dictionary that is hashable, even if its values are not.
@@ -139,3 +111,31 @@ class HashDict:
         Create a new dictionary with keys from iterable and values set to value.
         '''
         return HashDict((key, value) for key in keys_iterable)
+
+
+class HashBox:
+    '''
+    A hashable container for storing something unhashable,
+    Comparing equal to boxes with equal contents
+    '''
+
+    def __init__(self, contents=None):
+        self.contents = contents
+
+    def __repr__(self):
+        return f"HashBox({repr(self.contents)})"
+
+    def __hash__(self):
+        '''
+        All boxes will have a hash collision.
+        '''
+        return hash(0)
+
+    def __eq__(self, other):
+        '''
+        Checks if other is a HashBox,
+        And contains equal contents
+        '''
+        if not isinstance(other, HashBox):
+            return False
+        return self.contents == other.contents
