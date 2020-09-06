@@ -1,5 +1,7 @@
 from collections.abc import Mapping, Hashable
 
+HASH_BOX_XOR_MASK = 0b10101010101
+
 class HashDict(Mapping, Hashable):
     '''
     An immutable dictionary that is hashable, even if its values are not.
@@ -99,23 +101,30 @@ class HashBox:
     Comparing equal to boxes with equal contents
     '''
 
-    def __init__(self, contents=None):
-        self.contents = contents
+    def __init__(self, key, value=None):
+        if not isinstance(key, Hashable):
+            raise TypeError(f"Key {key} is not hashable")
+        self.__key = key # key should not be mutated
+        self.value = value
+
+    @property
+    def key(self):
+        return self.__key
 
     def __repr__(self):
-        return f"HashBox({repr(self.contents)})"
-
-    def __hash__(self):
-        '''
-        All boxes will have a hash collision.
-        '''
-        return hash(0)
+        return f"HashBox({repr(self.key)}: {repr(self.value)})"
 
     def __eq__(self, other):
         '''
         Checks if other is a HashBox,
-        And contains equal contents
+        And contains an equal key
         '''
         if not isinstance(other, HashBox):
             return NotImplemented
-        return self.contents == other.contents
+        return self.key == other.key
+
+    def __hash__(self):
+        '''
+        Hashes based only on key, because value might be unhashable
+        '''
+        return HASH_BOX_XOR_MASK ^ hash(self.key)
