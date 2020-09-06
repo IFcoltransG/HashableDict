@@ -2,7 +2,7 @@
 A hashable immutable dictionary for Python. It lets you store dictionaries in sets or as keys to other dictionaries.
 # Usage
 ```python
-from HashableDict import HashableFrozenDict
+from HashableDict import HashDict
 
 alive_list  = [("Ada Lovelace", False),
                ("Douglas Adams", False),
@@ -10,7 +10,7 @@ alive_list  = [("Ada Lovelace", False),
                ("Alan Turing", False),
                ("you and your dreams", True)]
 
-alive_dict = HashableFrozenDict(alive_list)
+alive_dict = HashDict(alive_list)
 
 if alive_dict["you and your dreams"]:
     print("The dream is alive!")
