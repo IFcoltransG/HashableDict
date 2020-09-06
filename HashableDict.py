@@ -23,17 +23,17 @@ class HashableBox:
         return isinstance(other, HashableBox)
 
 
-class HashableFrozenDict:
+class HashDict:
     '''
     An immutable dictionary that is hashable, even if its values are not.
     '''
 
     def __init__(self, base_iterable=None, **kwargs):
         '''
-        HashableFrozenDict() = empty dictionary
-        HashableFrozenDict(iterable)
+        HashDict() = empty dictionary
+        HashDict(iterable)
             = dictionary with keys made from pairs in iterable
-        HashableFrozenDict(**kwargs) = dictionary made from kwargs
+        HashDict(**kwargs) = dictionary made from kwargs
         '''
         if base_iterable is None:
             base_iterable = kwargs
@@ -47,6 +47,12 @@ class HashableFrozenDict:
             keys.add(key)
         self.__contents = frozenset(contents)
         self.__keys = frozenset(keys)
+
+    def to_dict(self):
+        '''
+        Create a dict from self
+        '''
+        return dict(self.items())
 
     def get(self, key_to_find, default=None):
         '''
@@ -80,21 +86,21 @@ class HashableFrozenDict:
     def __repr__(self):
         '''
         Return a string representation in the form
-        'HashableFrozenDict({key1: value1, key2: value2})'
+        'HashDict({key1: value1, key2: value2})'
         '''
         pairs = ((repr(key), repr(value)) for key, value in self.items())
         formatted_pairs = (f"{key}: {value}" for key, value in pairs)
         inner = ", ".join(formatted_pairs)
-        return "HashableFrozenDict({" + inner + "})"
+        return "HashDict({" + inner + "})"
 
     def __eq__(self, other):
         '''
-        Compares self to a dict or HashableFrozenDict
+        Compares self to a dict or HashDict
         by checking if all keys and values are the same
         '''
         if isinstance(other, dict):
-            other = HashableFrozenDict(other)
-        if not isinstance(other, HashableFrozenDict):
+            other = HashDict(other)
+        if not isinstance(other, HashDict):
             return False
         return self._get_contents() == self._get_contents()
 
@@ -121,7 +127,7 @@ class HashableFrozenDict:
         '''
         Create a new dictionary with keys from iterable and values set to value.
         '''
-        return HashableFrozenDict((key, value) for key in iterable)
+        return HashDict((key, value) for key in keys_iterable)
 
     def _get_contents(self):
         '''
