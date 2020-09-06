@@ -103,7 +103,7 @@ class HashDict:
             other = HashDict(other)
         if not isinstance(other, HashDict):
             return False
-        return self._get_contents() == self._get_contents()
+        return self._get_contents() == other._get_contents()
 
     def __hash__(self):
         '''
