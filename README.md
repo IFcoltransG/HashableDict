@@ -9,7 +9,7 @@ alive_list  = [("Ada Lovelace", False),
                ("Sylvia Plath", False),
                ("Alan Turing", False),
                ("you and your dreams", True)]
-alive_dict = HashableDict(alive_list)
+alive_dict = HashableFrozenDict(alive_list)
 
 if alive_dict["you and your dreams"]:
     print("The dream is alive!")
