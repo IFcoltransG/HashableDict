@@ -1,4 +1,6 @@
-class HashDict:
+from collections.abc import Mapping, Hashable
+
+class HashDict(Mapping, Hashable):
     '''
     An immutable dictionary that is hashable, even if its values are not.
     '''
@@ -21,6 +23,7 @@ class HashDict:
             # wrap values in hashable boxes in case of mutability
             contents.add((key, HashBox(value)))
             keys.add(key)
+        #use a frozenset internally because it is immutable
         self.__contents = frozenset(contents)
         self.__keys = frozenset(keys)
 
@@ -29,15 +32,6 @@ class HashDict:
         Create a dict from self
         '''
         return dict(self.items())
-
-    def get(self, key_to_find, default=None):
-        '''
-        if key is in self, return self[key]
-        otherwise, return default
-        '''
-        if key_to_find in self:
-            return self[key_to_find]
-        return default
 
     def items(self):
         '''
@@ -69,28 +63,14 @@ class HashDict:
         inner = ", ".join(formatted_pairs)
         return "HashDict({" + inner + "})"
 
-    def __eq__(self, other):
-        '''
-        Compares self to a dict or HashDict
-        by checking if all keys and values are the same
-        '''
-        if isinstance(other, dict):
-            other = HashDict(other)
-        if not isinstance(other, HashDict):
-            return False
-        return self._get_contents() == other._get_contents()
-
     def __hash__(self):
         '''
         Hashes using a frozenset of dict keys
         '''
         return hash(self.keys())
 
-    def __contains__(self, key):
-        '''
-        Returns a boolean for if the key is in the dictionary
-        '''
-        return key in self.keys()
+    def __len__(self):
+        return len(self.keys())
 
     def __getitem__(self, key_to_find):
         for key, value in self.items():
