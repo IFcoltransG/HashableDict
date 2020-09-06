@@ -1,6 +1,6 @@
 # HashableDict
 A hashable immutable dictionary for Python. It lets you store dictionaries in sets or as keys to other dictionaries.
-# Usage
+## Usage
 ```python
 from HashableDict import HashDict
 
