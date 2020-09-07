@@ -27,6 +27,7 @@ class HashDict(Mapping, Hashable):
             contents.add(PairBox(key, value))
         # use a frozenset internally because it is immutable
         self.__contents = frozenset(contents)
+        self.__hash = None
 
     @property
     def _contents(self):
@@ -42,6 +43,9 @@ class HashDict(Mapping, Hashable):
         inner = ", ".join(formatted_pairs)
         return "HashDict({" + inner + "})"
 
+    def __contains__(self, key):
+        return MatchBox(key) in self._contents
+
     def __len__(self):
         return len(self._contents)
 
@@ -49,15 +53,30 @@ class HashDict(Mapping, Hashable):
         for key, _ in self._contents:
             yield key
 
-    def __getitem__(self, key):
+    def keys(self):
+        for key, _ in self._contents:
+            yield key
 
-        return
+    def values(self):
+        for _, value in self._contents:
+            yield value
+
+    def items(self):
+        yield from map(tuple, self._contents)
+
+    def __getitem__(self, key):
+        matchbox = MatchBox(key)
+        if matchbox in self._contents:
+            return matchbox.equal_elements[0]
+        return False
 
     def __hash__(self):
         '''
         Hashes using a frozenset of dict keys
         '''
-        return hash(self._contents)
+        if self.__hash is None:
+            self.__hash = hash(self._contents)
+        return self.__hash
 
     def __eq__(self, other):
         raise NotImplementedError
