@@ -67,8 +67,9 @@ class HashDict(Mapping, Hashable):
     def __getitem__(self, key):
         matchbox = MatchBox(key)
         if matchbox in self._contents:
-            return matchbox.equal_elements[0]
-        return False
+            results = matchbox.equal_elements
+            return results[0].value
+        raise KeyError(key)
 
     def __hash__(self):
         '''
