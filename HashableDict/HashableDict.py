@@ -69,7 +69,15 @@ class HashDict(Mapping, Hashable):
         return HashDict((key, value) for key in keys_iterable)
 
 
-class PairBox:
+class Box:
+    def __hash__(self):
+        '''
+        Hashes based only on key, because value might be unhashable
+        '''
+        return HASH_BOX_XOR_MASK ^ hash(self.key)
+
+
+class PairBox(Box):
     '''
     A hashable container for storing a key and an unhashable value,
     Comparing equal to boxes with equal keys
@@ -97,17 +105,14 @@ class PairBox:
             return NotImplemented
         return self.key == other.key
 
+    __hash__ = Box.__hash__
+
     def __iter__(self):
         yield self.key
         yield self.value
 
-    def __hash__(self):
-        '''
-        Hashes based only on key, because value might be unhashable
-        '''
-        return HASH_BOX_XOR_MASK ^ hash(self.key)
 
-class MatchBox:
+class MatchBox(Box):
     '''
     Used for comparing with keys in a PairBox;
     Compares equal to PairBoxes with the same key,
@@ -117,4 +122,4 @@ class MatchBox:
     def __init__(self, key):
         self.__key = key
 
-
+    __hash__ = Box.__hash__
