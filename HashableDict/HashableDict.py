@@ -82,8 +82,6 @@ class HashDict(Mapping, Hashable):
     def __eq__(self, other):
         if not isinstance(other, Mapping):
             return NotImplemented
-        if isinstance(other, HashDict):
-            return self._contents == other._contents
         if len(self) != len(other):
             return False
         for key, value in self.items():
