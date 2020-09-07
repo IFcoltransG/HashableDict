@@ -26,6 +26,10 @@ class HashDict(Mapping, Hashable):
         # use a frozenset internally because it is immutable
         self.__contents = frozenset(contents)
 
+    @property
+    def _contents(self):
+        return self.__contents
+
     def __repr__(self):
         '''
         Return a string representation in the form
@@ -40,7 +44,7 @@ class HashDict(Mapping, Hashable):
         '''
         Hashes using a frozenset of dict keys
         '''
-        return hash(self._get_contents())
+        return hash(self._contents)
 
     def __eq__(self, other):
         raise NotImplementedError
