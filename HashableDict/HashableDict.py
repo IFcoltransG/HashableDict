@@ -2,6 +2,7 @@ from collections.abc import Mapping, Hashable
 
 HASH_BOX_XOR_MASK = 0b10101010101
 
+
 class HashDict(Mapping, Hashable):
     '''
     An immutable dictionary that is hashable, even if its values are not.
@@ -39,6 +40,17 @@ class HashDict(Mapping, Hashable):
         formatted_pairs = (f"{key}: {value}" for key, value in pairs)
         inner = ", ".join(formatted_pairs)
         return "HashDict({" + inner + "})"
+
+    def __len__(self):
+        return len(self._contents)
+
+    def __iter__(self):
+        for key, _ in self._contents:
+            yield key
+
+    def __getitem__(self, key):
+
+        return
 
     def __hash__(self):
         '''
