@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="HashableDict",
-    version="0.2.0",
+    version="0.3.0",
     author="IFcoltransG",
     license="unlicense",
     author_email="IFcoltransG+PyPI@protonmail.ch",
@@ -14,7 +14,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     keywords=["dictionary", "dict", "frozen", "hashable", "immutable"],
     url="https://github.com/IFcoltransG/HashableDict",
-    download_url="https://github.com/IFcoltransG/HashableDict/archive/v0.2.0.tar.gz",
+    download_url="https://github.com/IFcoltransG/HashableDict/archive/v0.3.0.tar.gz",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
