@@ -97,8 +97,24 @@ class PairBox:
             return NotImplemented
         return self.key == other.key
 
+    def __iter__(self):
+        yield self.key
+        yield self.value
+
     def __hash__(self):
         '''
         Hashes based only on key, because value might be unhashable
         '''
         return HASH_BOX_XOR_MASK ^ hash(self.key)
+
+class MatchBox:
+    '''
+    Used for comparing with keys in a PairBox;
+    Compares equal to PairBoxes with the same key,
+    but stores everything it is compared with so that values can be retrieved.
+    '''
+
+    def __init__(self, key):
+        self.__key = key
+
+
