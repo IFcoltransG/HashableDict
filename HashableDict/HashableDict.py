@@ -20,40 +20,11 @@ class HashDict(Mapping, Hashable):
         if isinstance(base_iterable, dict):
             base_iterable = base_iterable.items()
         contents = set()
-        keys = set()
         for key, value in base_iterable:
             # wrap values in hashable boxes in case of mutability
-            contents.add((key, PairBox(value)))
-            keys.add(key)
-        #use a frozenset internally because it is immutable
+            contents.add(PairBox(key, value))
+        # use a frozenset internally because it is immutable
         self.__contents = frozenset(contents)
-        self.__keys = frozenset(keys)
-
-    def to_dict(self):
-        '''
-        Create a dict from self
-        '''
-        return dict(self.items())
-
-    def items(self):
-        '''
-        Iterates through (key, value) pairs
-        '''
-        boxed_key_val_pairs = self._get_contents()
-        for key, box in boxed_key_val_pairs:
-            yield (key, box.contents)
-
-    def keys(self):
-        '''
-        Returns the frozenset of keys in the dictionary
-        '''
-        return self.__keys
-
-    def __iter__(self):
-        '''
-        Iterate through the dictionary keys in an unspecified order
-        '''
-        yield from self.keys()
 
     def __repr__(self):
         '''
@@ -69,23 +40,10 @@ class HashDict(Mapping, Hashable):
         '''
         Hashes using a frozenset of dict keys
         '''
-        return hash(self.keys())
+        return hash(self._get_contents())
 
-    def __len__(self):
-        return len(self.keys())
-
-    def __getitem__(self, key_to_find):
-        for key, value in self.items():
-            if key == key_to_find:
-                return value
-        raise KeyError(key_to_find)
-
-    def _get_contents(self):
-        '''
-        Return the internal __contents frozenset
-        (such as for checking equality)
-        '''
-        return self.__contents
+    def __eq__(self, other):
+        raise NotImplementedError
 
     @classmethod
     def fromkeys(cls, keys_iterable, value=None):
@@ -104,7 +62,7 @@ class PairBox:
     def __init__(self, key, value=None):
         if not isinstance(key, Hashable):
             raise TypeError(f"Key {key} is not hashable")
-        self.__key = key # key should not be mutated
+        self.__key = key  # key should not be mutated
         self.value = value
 
     @property
@@ -112,7 +70,7 @@ class PairBox:
         return self.__key
 
     def __repr__(self):
-        return f"PairBox({repr(self.key)}: {repr(self.value)})"
+        return f"PairBox({repr(self.key)}, {repr(self.value)})"
 
     def __eq__(self, other):
         '''
