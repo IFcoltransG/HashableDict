@@ -1,4 +1,5 @@
 from collections.abc import Mapping, Hashable
+from abc import ABC, abstractmethod
 
 HASH_BOX_XOR_MASK = 0b10101010101
 
@@ -69,12 +70,25 @@ class HashDict(Mapping, Hashable):
         return HashDict((key, value) for key in keys_iterable)
 
 
-class Box:
+class Box(ABC):
     def __hash__(self):
         '''
         Hashes based only on key, because value might be unhashable
         '''
         return HASH_BOX_XOR_MASK ^ hash(self.key)
+
+    @abstractmethod
+    def __eq__(self, other):
+        pass
+
+    @abstractmethod
+    def __repr__(self):
+        pass
+
+    @property
+    @abstractmethod
+    def key(self):
+        pass
 
 
 class PairBox(Box):
@@ -120,6 +134,32 @@ class MatchBox(Box):
     '''
 
     def __init__(self, key):
+        if not isinstance(key, Hashable):
+            raise TypeError(f"Key {key} is not hashable")
         self.__key = key
+        self.equal_elements = []
+
+    @property
+    def key(self):
+        return self.__key
+
+    def __repr__(self):
+        if not self.equal_elements:
+            return f"MatchBox({repr(self.key)})"
+        return f"MatchBox({repr(self.key)} has matched {self.equal_elements})"
+
+    def __eq__(self, other):
+        '''
+        Checks self and other's .key attributes,
+        but also stores other in a list for retrieval if self == other
+        '''
+        if not isinstance(other, Box):
+            return NotImplemented
+        elif self.key != other.key:
+            return False
+        if isinstance(other, PairBox):
+            self.equal_elements.append(other)
+        return True
+
 
     __hash__ = Box.__hash__
