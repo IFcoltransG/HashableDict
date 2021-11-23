@@ -18,3 +18,6 @@ if alive_dict["you and your dreams"]:
 dict_within_dict = {alive_dict: None}
 print(dict_within_dict)
 ```
+
+## See also
+- [FrozenDict](https://pypi.org/project/frozendict/)
