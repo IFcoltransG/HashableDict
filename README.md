@@ -2,7 +2,7 @@
 A hashable immutable dictionary for Python. It lets you store dictionaries in sets or as keys to other dictionaries.
 ## Usage
 ```python
-from HashableDict import HashDict
+from HashableDict.HashableDict import HashDict
 
 alive_list  = [("Ada Lovelace", False),
                ("Douglas Adams", False),
